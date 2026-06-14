@@ -1,8 +1,10 @@
 package api.aec.repositories.entities;
 
+import api.aec.domain.models.GenderModel;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,6 +29,13 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
+    private GenderModel gender;
+
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
+
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
 
@@ -37,31 +46,14 @@ public class UserEntity {
     @Column(name = "version", nullable = false)
     private Long version;
 
-    public UserEntity(String email, String phoneNumber, String firstName, String lastName) {
+    @Builder
+    public UserEntity(String email, String phoneNumber, String firstName, String lastName, GenderModel gender, LocalDate birthDate) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public UserEntity setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public UserEntity setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public UserEntity setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public UserEntity setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
+        this.gender = gender;
+        this.birthDate = birthDate;
     }
 
     @PrePersist
