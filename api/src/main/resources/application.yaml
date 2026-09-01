@@ -2,12 +2,57 @@ spring:
   application:
     name: api
 
+  profiles:
+    default: local
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   jpa:
+    hibernate:
+      ddl-auto: validate
     properties:
       hibernate:
         default_schema: aec
+
+---
+# LOCAL
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+app:
+  security:
+    enabled: false
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: false
+        same-site: lax
+
+---
+# PROD
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+app:
+  security:
+    enabled: true
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true
+        same-site: strict

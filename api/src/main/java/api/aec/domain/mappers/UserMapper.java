@@ -1,16 +1,18 @@
 package api.aec.domain.mappers;
 
-import api.aec.domain.models.UserModel;
+import api.aec.controllers.models.RegisterUserRequest;
+import api.aec.domain.models.RegisterUserModel;
 import api.aec.repositories.entities.UserEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import static api.aec.domain.constants.Constants.COMPONENT_MODEL;
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
-
-@Mapper(componentModel = COMPONENT_MODEL)
+@Mapper(componentModel = SPRING)
 public interface UserMapper {
 
-    UserEntity mapToUserEntity(UserModel userModel);
+    RegisterUserModel mapToRegisterUserModel(RegisterUserRequest request);
 
-    UserModel mapToUserModel(UserEntity userEntity);
+    @Mapping(source = "email", target = "email")
+    UserEntity mapToUserEntity(RegisterUserModel model, String email, String passwordHash);
 }
