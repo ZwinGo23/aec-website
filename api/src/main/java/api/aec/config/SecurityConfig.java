@@ -16,7 +16,7 @@ public class SecurityConfig {
     private boolean securityEnabled;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         if (!securityEnabled) {
             http
