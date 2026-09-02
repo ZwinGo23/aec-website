@@ -1,0 +1,67 @@
+<header class="navbar" [class.menu-open]="menuOpen">
+  <a
+    class="brand"
+    routerLink="/"
+    aria-label="Retour à l'accueil"
+    (click)="closeMenu()"
+  >
+    <img
+      src="/images/logo-aec.png"
+      alt="Royal Arc en Ciel CTT"
+      class="club-logo"
+    />
+  </a>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-label="Ouvrir ou fermer le menu de navigation"
+    aria-controls="main-navigation"
+    [attr.aria-expanded]="menuOpen"
+    (click)="toggleMenu()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav
+    id="main-navigation"
+    class="navigation"
+    aria-label="Navigation principale"
+  >
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >
+      Accueil
+    </a>
+
+    <a
+      routerLink="/entrainements"
+      routerLinkActive="active"
+      (click)="closeMenu()"
+    >
+      Entraînements
+    </a>
+  </nav>
+
+  <div class="auth-actions" aria-label="Accès au compte">
+    <a
+      class="auth-button auth-button--register"
+      routerLink="/inscription"
+      (click)="closeMenu()"
+    >
+      S'enregistrer
+    </a>
+    <a
+      class="auth-button auth-button--login"
+      routerLink="/connexion"
+      (click)="closeMenu()"
+    >
+      Se connecter
+    </a>
+  </div>
+</header>

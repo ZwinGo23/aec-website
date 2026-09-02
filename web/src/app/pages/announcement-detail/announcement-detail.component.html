@@ -1,0 +1,30 @@
+<section class="announcement-page">
+  <div class="announcement-container">
+    <a routerLink="/" class="back-link">← Retour à l'accueil</a>
+
+    <p *ngIf="loading" class="status-text">Chargement de l'annonce…</p>
+
+    <article *ngIf="announcement as item" class="announcement-detail-card">
+      <div class="announcement-visual">
+        <img
+          [src]="announcementImage(item)"
+          alt="Illustration de l'annonce"
+        />
+      </div>
+
+      <div class="announcement-body">
+        <p class="eyebrow">Annonce du club</p>
+        <time [attr.datetime]="item.date">
+          {{ item.date | date:'dd/MM/yyyy' }}
+        </time>
+        <p class="announcement-description">{{ item.description }}</p>
+      </div>
+    </article>
+
+    <div *ngIf="notFound" class="not-found-card">
+      <h1>Annonce introuvable</h1>
+      <p>Cette annonce n'existe pas ou n'est plus disponible.</p>
+      <a routerLink="/">Revenir à l'accueil</a>
+    </div>
+  </div>
+</section>
