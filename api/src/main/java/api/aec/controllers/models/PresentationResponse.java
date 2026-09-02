@@ -1,4 +1,6 @@
 package api.aec.controllers.models;
 
-public class PresentationResponse {
+public record PresentationResponse (
+        String content
+){
 }

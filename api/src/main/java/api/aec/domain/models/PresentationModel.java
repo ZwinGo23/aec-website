@@ -1,4 +1,6 @@
 package api.aec.domain.models;
 
-public class PresentationModel {
+public record PresentationModel (
+        String content
+){
 }

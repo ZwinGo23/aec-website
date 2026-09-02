@@ -1,6 +1,7 @@
 package api.aec.domain;
 
-import api.aec.domain.exceptions.EmailAlreadyUsedException;
+import api.aec.domain.exceptions.ConflictException;
+import api.aec.domain.exceptions.BadRequestException;
 import api.aec.domain.mappers.UserMapper;
 import api.aec.domain.models.RegisterUserModel;
 import api.aec.repositories.UserRepository;
@@ -45,12 +46,12 @@ public class UserService {
                 || model.lastName().isBlank()
                 ||model.gender() == null
                 || model.birthDate() == null) {
-            throw new InvalidUserException();
+            throw new BadRequestException("Tous les champs sont obligatoires.");
         }
     }
 
     private void verifyEmailIsUnique(String email) {
         if(userRepository.existsByEmailIgnoreCase(email))
-            throw new EmailAlreadyUsedException();
+            throw new ConflictException("Cette adresse email est déjà utilisée.");
     }
 }

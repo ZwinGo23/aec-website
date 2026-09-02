@@ -1,8 +1,8 @@
 package api.aec.domain.exceptions;
 
-public class EmailAlreadyUsedException extends RuntimeException {
+public class ConflictException extends RuntimeException {
 
-    public EmailAlreadyUsedException() {
-        super("Cette adresse email est déjà utilisée.");
+    public ConflictException(String s) {
+        super(s);
     }
 }

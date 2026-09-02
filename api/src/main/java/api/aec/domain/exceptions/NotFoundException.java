@@ -1,8 +1,8 @@
 package api.aec.domain.exceptions;
 
-public class PresentationNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
-    public PresentationNotFoundException() {
-        super("Aucune présentation trouvée.");
+    public NotFoundException(String s) {
+        super(s);
     }
 }

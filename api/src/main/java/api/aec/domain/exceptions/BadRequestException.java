@@ -1,8 +1,8 @@
-package api.aec.domain;
+package api.aec.domain.exceptions;
 
-public class InvalidUserException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
 
-    public InvalidUserException() {
-        super("Tous les champs sont obligatoires.");
+    public BadRequestException(String s) {
+        super(s);
     }
 }
