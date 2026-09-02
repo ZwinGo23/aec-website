@@ -3,7 +3,7 @@ package api.aec.repositories.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,10 +20,10 @@ public class PresentationEntity {
     private String content;
 
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "update_date", nullable = false)
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
 
     @Version
     @Column(name = "version", nullable = false)
@@ -36,12 +36,12 @@ public class PresentationEntity {
 
     @PrePersist
     private void onCreate() {
-        this.creationDate = LocalDate.now();
-        this.updateDate = LocalDate.now();
+        this.creationDate = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
     }
 
     @PreUpdate
     private void onUpdate() {
-        this.updateDate = LocalDate.now();
+        this.updateDate = LocalDateTime.now();
     }
 }
