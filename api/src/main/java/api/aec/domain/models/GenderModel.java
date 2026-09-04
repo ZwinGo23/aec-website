@@ -16,7 +16,7 @@ public enum GenderModel {
 
     public static GenderModel fromCode(String code) {
         for(GenderModel s : values()) {
-            if(s.getCode().equals((code))) {
+            if(s.code.equals((code))) {
                 return s;
             }
         }

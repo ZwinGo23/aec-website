@@ -16,8 +16,9 @@ public enum RoleModel {
 
     public static RoleModel fromCode(String code) {
         for(RoleModel s : values()) {
-            if(s.name().equals(code))
+            if(s.code.equals(code)) {
                 return s;
+            }
         }
         throw new IllegalArgumentException("Unknown role code: " + code);
     }

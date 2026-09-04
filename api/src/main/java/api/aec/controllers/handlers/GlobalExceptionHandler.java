@@ -1,9 +1,10 @@
 package api.aec.controllers.handlers;
 
 import api.aec.controllers.models.ApiError;
-import api.aec.domain.exceptions.BadRequestException;
-import api.aec.domain.exceptions.ConflictException;
-import api.aec.domain.exceptions.NotFoundException;
+import api.aec.exceptions.BadRequestException;
+import api.aec.exceptions.ConflictException;
+import api.aec.exceptions.NotFoundException;
+import api.aec.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFoundException(NotFoundException e) {
         ApiError error = new ApiError("NOT_FOUND", e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiError> handleNotFoundException(UnauthorizedException e) {
+        ApiError error = new ApiError("UNAUTHORIZED", e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

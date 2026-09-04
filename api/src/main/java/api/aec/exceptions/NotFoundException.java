@@ -1,4 +1,4 @@
-package api.aec.domain.exceptions;
+package api.aec.exceptions;
 
 public class NotFoundException extends RuntimeException {
 

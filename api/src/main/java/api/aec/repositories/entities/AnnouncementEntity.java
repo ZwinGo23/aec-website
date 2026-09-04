@@ -3,21 +3,30 @@ package api.aec.repositories.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "presentations", schema = "aec")
-public class PresentationEntity {
+@Table(name = "announcements", schema = "aec")
+public class AnnouncementEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Setter
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "summary", nullable = false)
+    private String summary;
+
+    @Setter
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Setter
+    @Column(name = "validity_date", nullable = false)
+    private LocalDate validityDate;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
@@ -25,13 +34,16 @@ public class PresentationEntity {
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
 
-    @Version
-    @Column(name = "version", nullable = false)
-    private Long version;
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "update_user", nullable = false)
+    private UserEntity updateUser;
 
     @Builder
-    public PresentationEntity(String content) {
-        this.content = content;
+    public AnnouncementEntity(String summary, String description, LocalDate validityDate) {
+        this.summary = summary;
+        this.description = description;
+        this.validityDate = validityDate;
     }
 
     @PrePersist

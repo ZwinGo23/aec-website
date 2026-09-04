@@ -18,7 +18,8 @@ public class CorsConfig {
                 registry.addMapping("/api-aec/**")
                         .allowedOrigins("http://localhost:4200")
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
+                        .allowedHeaders("Content-Type", "X-CSRF-TOKEN", "X-XSRF-TOKEN")
+                        .allowCredentials(true);
             }
         };
     }

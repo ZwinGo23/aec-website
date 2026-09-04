@@ -1,7 +1,7 @@
 package api.aec.domain;
 
-import api.aec.domain.exceptions.ConflictException;
-import api.aec.domain.exceptions.BadRequestException;
+import api.aec.exceptions.ConflictException;
+import api.aec.exceptions.BadRequestException;
 import api.aec.domain.mappers.UserMapper;
 import api.aec.domain.models.RegisterUserModel;
 import api.aec.repositories.UserRepository;

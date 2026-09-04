@@ -5,6 +5,7 @@ import api.aec.domain.UserService;
 import api.aec.domain.mappers.UserMapper;
 import api.aec.domain.models.RegisterUserModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("isAnonymous()")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody RegisterUserRequest request) {
         RegisterUserModel model = userMapper.mapToRegisterUserModel(request);
