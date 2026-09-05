@@ -6,51 +6,23 @@
           <p class="eyebrow">Royal Arc en Ciel CTT</p>
           <h1>Bienvenue au club</h1>
         </div>
-
-        <button
-          *ngIf="authService.canManageHomeContent() && !isEditing"
-          type="button"
-          class="edit-button"
-          (click)="startEditing()"
-        >
-          <span aria-hidden="true">✎</span>
-          Modifier
-        </button>
       </header>
 
-      <div *ngIf="loading" class="loading-text">
+      @if(loading) {
+      <div class="loading-text">
         Chargement de la présentation…
       </div>
+      } @else {
+      <div class="presentation-text">
+        {{ presentation }}
+      </div>
 
-      <ng-container *ngIf="!loading">
-        <div *ngIf="!isEditing" class="presentation-text">
-          {{ presentation }}
-        </div>
+      <div class="editor">
+        <textarea rows="18" aria-label="Présentation du club"></textarea>
+      </div>
+      }
 
-        <div *ngIf="isEditing" class="editor">
-          <textarea
-            [(ngModel)]="editedPresentation"
-            rows="18"
-            aria-label="Présentation du club"
-          ></textarea>
-
-          <div class="editor-actions">
-            <button type="button" class="secondary-button" (click)="cancelEditing()">
-              Annuler
-            </button>
-            <button
-              type="button"
-              class="primary-button"
-              [disabled]="isSaving || !editedPresentation.trim()"
-              (click)="savePresentation()"
-            >
-              {{ isSaving ? 'Enregistrement…' : 'Enregistrer' }}
-            </button>
-          </div>
-        </div>
-      </ng-container>
-
-      <div class="useful-links" *ngIf="!isEditing">
+      <div class="useful-links">
         <a href="https://arcencielctt.kalisport.com/horaire" target="_blank" rel="noopener noreferrer">
           Voir les horaires
         </a>
@@ -66,35 +38,31 @@
         <h2>Dernières annonces</h2>
       </div>
 
-      <div *ngIf="announcements.length; else noAnnouncement" class="announcement-list">
-        <a
-          *ngFor="let announcement of announcements"
-          class="announcement-link"
-          [routerLink]="['/annonces', announcement.id]"
-          aria-label="Voir l’annonce"
-        >
-          <article class="announcement-card">
-            <div class="announcement-image-wrapper">
-              <img
-                [src]="announcementImage(announcement)"
-                alt=""
-                class="announcement-image"
-              />
-            </div>
+      @if (announcements.length > 0) {
+        <div class="announcement-list">
 
-            <div class="announcement-content">
-              <time [attr.datetime]="announcement.date">
-                {{ announcement.date | date:'dd/MM/yyyy' }}
-              </time>
-              <p>{{ announcement.description }}</p>
-            </div>
-          </article>
-        </a>
-      </div>
+          @for (announcement of announcements; track announcement.id) {
+            <a class="announcement-link" [routerLink]="['/annonces', announcement.id]" aria-label="Voir l’annonce">
+              <article class="announcement-card">
+                <div class="announcement-image-wrapper">
+                  <img [src]="announcementImage(announcement)" alt="" class="announcement-image" />
+                </div>
 
-      <ng-template #noAnnouncement>
-        <p class="empty-state">Aucune annonce pour le moment.</p>
-      </ng-template>
+                <div class="announcement-content">
+                  <time [attr.datetime]="announcement.date">
+                    {{ announcement.date | date:'dd/MM/yyyy' }}
+                  </time>
+
+                  <p>{{ announcement.description }}</p>
+                </div>
+              </article>
+            </a>
+          }
+
+        </div>
+      } @else {
+        <p>Aucune annonce pour le moment.</p>
+      }
     </aside>
   </div>
 </section>

@@ -28,4 +28,4 @@ import { FooterComponent } from './layout/footer/footer.component';
     }
   `]
 })
-export class AppComponent {}
+export class AppComponent { }

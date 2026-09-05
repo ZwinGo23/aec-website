@@ -1,45 +1,84 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router'
+import { finalize } from 'rxjs';
+import { LucideEye, LucideEyeOff } from '@lucide/angular';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  template: `
-    <section class="placeholder-page">
-      <div>
-        <p>Royal Arc en Ciel CTT</p>
-        <h1>Se connecter</h1>
-        <span>Le formulaire de connexion sera construit dans une prochaine étape.</span>
-      </div>
-    </section>
-  `,
-  styles: [`
-    .placeholder-page {
-      min-height: 55vh;
-      display: grid;
-      place-items: center;
-      padding: 48px 20px;
-      text-align: center;
-      background: #f7f9fc;
-    }
-
-    p {
-      margin: 0 0 8px;
-      color: #217ce7;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      font-size: .78rem;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      color: #17283c;
-      font-size: 2.2rem;
-    }
-
-    span {
-      color: #67788b;
-    }
-  `]
+  imports: [ReactiveFormsModule, LucideEye, LucideEyeOff],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class LoginComponent {}
+export class LoginComponent {
+
+  loading = false;
+  showPassword = false;
+  errorMessage = '';
+
+  loginForm = new FormGroup({
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.email
+      ]
+    }),
+
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required
+      ]
+    })
+  });
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  login(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    const request = this.loginForm.getRawValue();
+
+    this.authService.login(request).pipe(finalize(() => {
+      this.loading = false;
+    })
+    )
+    .subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+          if (error.status === 401) {
+            this.errorMessage =
+              'Adresse email ou mot de passe incorrect.';
+            return;
+          }
+
+          if (error.status === 403) {
+            this.errorMessage =
+              'Vous êtes déjà connecté.';
+            return;
+          }
+
+          this.errorMessage =
+            'Une erreur est survenue lors de la connexion.';
+        }
+    });
+  }
+}
